@@ -29,7 +29,6 @@ export default function RomanticProposalSite() {
       'https://i.ibb.co/SgzKVsy/IMG-20260503-145650316-HDR-AE.jpg',
       'https://www.image2url.com/r2/default/images/1779197966687-37d9be05-b5ad-4197-98de-db4bb9e635f8.jpg',
       'https://www.image2url.com/r2/default/images/1779197037426-f77b5bd6-11d0-4037-a865-55ac7104f593.jpg',
-      'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2070&auto=format&fit=crop',
     ],
     timelineItems: [
       {
@@ -332,7 +331,7 @@ export default function RomanticProposalSite() {
                   <div>
                     <label className="text-sm text-zinc-400">Fotos tipo story</label>
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 mt-2">
-                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
                         <div key={index}>
                           <input
                             value={content.storyImages[index] || ''}
