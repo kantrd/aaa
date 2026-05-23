@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
 export default function RomanticProposalSite() {
+  const [startMusic, setStartMusic] = useState(false)
+
   const [isAdminOpen, setIsAdminOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
@@ -27,7 +29,7 @@ export default function RomanticProposalSite() {
       'https://i.ibb.co/SgzKVsy/IMG-20260503-145650316-HDR-AE.jpg',
       'https://www.image2url.com/r2/default/images/1779197966687-37d9be05-b5ad-4197-98de-db4bb9e635f8.jpg',
       'https://www.image2url.com/r2/default/images/1779197037426-f77b5bd6-11d0-4037-a865-55ac7104f593.jpg',
-      'https://www.image2url.com/r2/default/images/1779196856654-953d2143-cd63-4479-9594-0a3a92e9918e.jpg',
+      'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2070&auto=format&fit=crop',
     ],
     timelineItems: [
       {
@@ -67,39 +69,72 @@ export default function RomanticProposalSite() {
   }
 
   return (
-    <>
-      {/* ADMIN BUTTON */}
-      {!isAdminOpen && (
+  <>
+    {!startMusic && (
+      <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
         <button
-          onClick={() => setIsAdminOpen(true)}
-          className="fixed top-4 right-4 z-[999] w-10 h-10 bg-black/50 hover:bg-black/70 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 shadow-lg"
-          title="Painel Administrativo"
+          onClick={() => setStartMusic(true)}
+          className="px-10 py-5 rounded-3xl bg-pink-500 hover:scale-105 transition-all duration-300 text-2xl font-bold text-white shadow-2xl shadow-pink-500/30"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
+          Entrar ❤️
         </button>
-      )}
+      </div>
+    )}
 
-      {/* ADMIN PANEL */}
-      {isAdminOpen && (
-        <div className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-black/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl w-full max-w-md max-h-[90vh] overflow-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white font-bold text-xl">Editor do Site</h2>
+    {startMusic && (
+      <div className="music-player">
+        <iframe
+          width="0"
+          height="0"
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/richard-cavalcante-65004899/notificacao-acende-2&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false"
+        ></iframe>
+      </div>
+    )}
 
-              <button
-                onClick={() => {
-                  setIsAdminOpen(false)
-                  setPassword('')
-                }}
-                className="text-zinc-400 hover:text-white text-2xl"
-              >
-                ×
-              </button>
-            </div>
+    {/* ADMIN BUTTON */}
+    {!isAdminOpen && (
+      <button
+        onClick={() => setIsAdminOpen(true)}
+        className="fixed top-4 right-4 z-[999] w-10 h-10 bg-black/50 hover:bg-black/70 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 shadow-lg"
+        title="Painel Administrativo"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </button>
+    )}
 
-            {!isAuthenticated ? (
+            {/* ADMIN PANEL */}
+             {isAdminOpen && (
+  <div className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="bg-black/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl w-full max-w-md max-h-[90vh] overflow-auto">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-white font-bold text-xl">
+          Editor do Site
+        </h2>
+
+        <button
+          onClick={() => {
+            setIsAdminOpen(false)
+            setPassword('')
+          }}
+          className="text-zinc-400 hover:text-white text-2xl"
+        >
+          ×
+        </button>
+      </div>
+
+      {!isAuthenticated ? (
               <div className="space-y-4">
                 <div>
                   <label className="text-sm text-zinc-400">Senha</label>
@@ -229,9 +264,9 @@ export default function RomanticProposalSite() {
                             form.append('upload_preset', uploadPreset)
 
                             const res = await fetch(
-                              `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
-                              { method: 'POST', body: form }
-                            )
+  `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+  { method: 'POST', body: form }
+)
                             const data = await res.json()
                             if (data.secure_url) {
                               setContent({ ...content, audio: data.secure_url })
@@ -377,8 +412,7 @@ export default function RomanticProposalSite() {
         <section
           className="relative h-screen flex flex-col items-center justify-center text-center px-6"
           style={{
-            backgroundImage:
-              `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), url('${content.heroImage}')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), url('${content.heroImage}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -407,13 +441,13 @@ export default function RomanticProposalSite() {
 
         {/* PLAYER */}
         <section className="sticky top-0 z-50 backdrop-blur-xl bg-black/50 border-y border-white/10">
-          <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col items-center justify-center gap-6 text-center md:flex-row md:text-left">
-            <div className="max-w-3xl">
+          <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col items-center justify-center gap-6 text-center">
+            <div className="max-w-3xl text-center mx-auto">
               <p className="text-sm uppercase tracking-[0.35em] text-pink-300 mb-2">
                 Nossa Trilha Sonora
               </p>
               <h2 className="font-bold text-3xl md:text-4xl">
-                A trilha principal do nosso momento
+                Aumenta o som… nossa trilha sonora já começou 🎵
               </h2>
             </div>
 
@@ -432,11 +466,7 @@ export default function RomanticProposalSite() {
                 />
               ) : null}
 
-              {content.audio && (
-                <div className="mt-4 bg-zinc-800/60 p-3 rounded-xl">
-                  <audio controls src={content.audio} className="w-full" />
-                </div>
-              )}
+              
             </div>
           </div>
         </section>
@@ -534,41 +564,45 @@ export default function RomanticProposalSite() {
               Uma carta pra você
             </p>
 
-            <div className="space-y-6 text-lg md:text-xl text-zinc-200 leading-relaxed">
-              <p>
-                Eu poderia escrever mil coisas aqui e ainda sentir que não consegui explicar direito o quanto você se tornou importante pra mim.
-              </p>
+<div className="space-y-6 text-lg md:text-xl text-zinc-200 leading-relaxed">
+  <p>
+    Sinceramente, eu nem sei explicar direito o que você se tornou pra mim.
+    Tem coisa que a gente sente tão forte que nenhuma palavra parece suficiente.
+  </p>
 
-              <p>
-                Desde o primeiro sorriso até a maneira como você transforma dias comuns em algo extraordinário, cada detalhe seu tem um lugar especial no meu coração.
-              </p>
+  <p>
+    Desde que você entrou na minha vida, até os dias mais comuns ficaram diferentes.
+    Sua risada, seu jeito, nossas conversas… tudo em você acabou virando parte dos meus melhores momentos.
+  </p>
 
-              <p>
-                Eu admiro seu jeito de cuidar, sua força nos momentos difíceis e a risada que me faz esquecer qualquer preocupação.
-              </p>
+  <p>
+    Eu gosto da paz que sinto quando tô com você.
+    Gosto da forma como você consegue me fazer esquecer os problemas só com um abraço ou um sorriso.
+  </p>
 
-              <p>
-                Você é a razão pela qual eu quero construir planos, comemorar vitórias e também ser apoio nas pequenas coisas do dia a dia.
-              </p>
+  <p>
+    E talvez o mais louco seja perceber que, no meio de tanta coisa acontecendo na vida, você virou exatamente o lugar onde eu mais quero estar.
+  </p>
 
-              <p>
-                O que eu mais desejo é que a gente continue se descobrindo, deixando espaço para sonhos novos e celebrando todo afeto que já existe entre nós.
-              </p>
+  <p>
+    Não quero viver só momentos bonitos com você.
+    Quero viver os dias difíceis também, apoiar seus sonhos, construir memórias e continuar descobrindo versões novas da gente juntos.
+  </p>
 
-              <p>
-                Obrigado por ser quem você é e por tornar a minha vida muito mais bonita só por estar nela.
-              </p>
-            </div>
-          </div>
-        </section>
+  <p>
+    Obrigado por existir do jeitinho que você é.
+    Porque, sem perceber, você deixou minha vida muito mais leve, mais feliz… e muito mais bonita.
+  </p>
+</div>
+</div>
+</section>
 
         {/* FINAL */}
         <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop')",
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), url('${content.heroImage}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
